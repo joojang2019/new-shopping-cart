@@ -1,11 +1,13 @@
 import React from "react";
 
 const SizeBox = ({ state }) => {
-  const { product, shoppingCart, setShoppingCart } = state;
+  const { product, shoppingCart, setShoppingCart, setOpen } = state;
 
   const addShoppingCart = size => {
     setShoppingCart([...shoppingCart, { ...product, size }]);
+    setOpen(true);
   };
+
   return (
     <div>
       <button onClick={() => addShoppingCart("S")}>S</button>

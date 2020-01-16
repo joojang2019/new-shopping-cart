@@ -2,15 +2,11 @@ import React from "react";
 import "./Card.css";
 import Card from "./Card";
 
-const CardList = ({ state }) => {
+const CardList = ({ products }) => {
   return (
     <div className="card-list">
-      {state.products.map(product => (
-        <Card
-          product={product}
-          shoppingCart={state.shoppingCart}
-          setShoppingCart={state.setShoppingCart}
-        />
+      {products.map(product => (
+        <Card product={product} />
       ))}
     </div>
   );

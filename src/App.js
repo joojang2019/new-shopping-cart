@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import CardList from "./component/CardList";
+import ShoppingCart from "./component/ShoppingCart";
+import ShoppingCartProvider from "./context/ShoppingCartContext";
 
 const App = () => {
   const [data, setData] = useState({});
-  const [shoppingCart, setShoppingCart] = useState([]);
 
   const products = Object.values(data);
   useEffect(() => {
@@ -15,11 +16,13 @@ const App = () => {
     fetchProducts();
   }, []);
 
-  console.log(shoppingCart);
   return (
-    <ul>
-      <CardList state={{ products, shoppingCart, setShoppingCart }} />
-    </ul>
+    <ShoppingCartProvider>
+      <ul>
+        <CardList products={products} />
+        <ShoppingCart />
+      </ul>
+    </ShoppingCartProvider>
   );
 };
 
