@@ -4,7 +4,8 @@ const SizeBox = ({ state }) => {
   const { product, shoppingCart, setShoppingCart, setOpen } = state;
 
   const addShoppingCart = size => {
-    setShoppingCart([...shoppingCart, { ...product, size }]);
+    const id = Math.random() * Math.random() * 100000;
+    setShoppingCart([...shoppingCart, { ...product, size, id }]);
     setOpen(true);
   };
 

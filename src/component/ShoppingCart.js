@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import clsx from "clsx";
 import "./Card.css";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
@@ -74,14 +74,18 @@ const useStyles = makeStyles(theme => ({
       duration: theme.transitions.duration.enteringScreen
     }),
     marginRight: 0
+  },
+  toolbarButtons: {
+    marginLeft: "auto"
   }
 }));
 
 const ShoppingCart = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const { shoppingCart, open, setOpen } = useContext(ShoppingCartContext);
-  // const { open, setOpen } = useContext(ShoppingCartContext);
+  const { shoppingCart, setShoppingCart, open, setOpen } = useContext(
+    ShoppingCartContext
+  );
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -89,6 +93,11 @@ const ShoppingCart = () => {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+
+  const handleDelete = product => {
+    const newShoppingCart = shoppingCart.filter(item => product.id !== item.id);
+    setShoppingCart(newShoppingCart);
   };
 
   return (
@@ -142,6 +151,12 @@ const ShoppingCart = () => {
         {shoppingCart.map(product => (
           <List>
             <li className="card-container">
+              <IconButton
+                className={classes.toolbarButtons}
+                onClick={() => handleDelete(product)}
+              >
+                X
+              </IconButton>
               <img src={`data/products/${product.sku}_2.jpg`} alt="" />
               <p>{product.title}</p>
               <p>{`$${product.price}`}</p>
