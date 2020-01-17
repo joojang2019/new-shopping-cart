@@ -1,15 +1,20 @@
 import React, { useContext } from "react";
 import clsx from "clsx";
 import "./Card.css";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import List from "@material-ui/core/List";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
+import {
+  makeStyles,
+  useTheme,
+  Drawer,
+  Toolbar,
+  Button,
+  AppBar,
+  List,
+  Typography,
+  IconButton,
+  Divider,
+  CssBaseline
+} from "@material-ui/core";
+
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -165,7 +170,11 @@ const ShoppingCart = () => {
           </List>
         ))}
         <Divider />
-        <List>{}</List>
+        {shoppingCart.length >= 1 ? (
+          <Button variant="contained" color="primary">
+            Checkout
+          </Button>
+        ) : null}
       </Drawer>
     </div>
   );
