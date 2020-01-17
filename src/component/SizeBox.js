@@ -1,7 +1,15 @@
 import React from "react";
 
 const SizeBox = ({ state }) => {
-  const { product, shoppingCart, setShoppingCart, setOpen } = state;
+  const {
+    product,
+    shoppingCart,
+    setShoppingCart,
+    setOpen,
+    inventory,
+    setInventory
+  } = state;
+  const sku = product.sku;
 
   const addShoppingCart = size => {
     const id = Math.random() * Math.random() * 100000;
@@ -9,12 +17,24 @@ const SizeBox = ({ state }) => {
     setOpen(true);
   };
 
+  if (Object.keys(inventory).length === 0) {
+    return null;
+  }
+
   return (
     <div>
-      <button onClick={() => addShoppingCart("S")}>S</button>
-      <button onClick={() => addShoppingCart("M")}>M</button>
-      <button onClick={() => addShoppingCart("L")}>L</button>
-      <button onClick={() => addShoppingCart("XL")}>XL</button>
+      {inventory[sku]["S"] !== 0 ? (
+        <button onClick={() => addShoppingCart("S")}>S</button>
+      ) : null}
+      {inventory[sku]["M"] !== 0 ? (
+        <button onClick={() => addShoppingCart("M")}>M</button>
+      ) : null}
+      {inventory[sku]["L"] !== 0 ? (
+        <button onClick={() => addShoppingCart("L")}>L</button>
+      ) : null}
+      {inventory[sku]["XL"] !== 0 ? (
+        <button onClick={() => addShoppingCart("XL")}>XL</button>
+      ) : null}
     </div>
   );
 };

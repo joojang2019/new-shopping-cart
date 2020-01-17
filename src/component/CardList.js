@@ -2,11 +2,15 @@ import React from "react";
 import "./Card.css";
 import Card from "./Card";
 
-const CardList = ({ products }) => {
+const CardList = ({ products, inventory, setInventory }) => {
   return (
     <div className="card-list">
       {products.map(product => (
-        <Card product={product} />
+        <Card
+          product={product}
+          inventory={inventory}
+          setInventory={setInventory}
+        />
       ))}
     </div>
   );
