@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import clsx from "clsx";
 import "./Card.css";
+import "./ShoppingCart.css";
 import {
   makeStyles,
   useTheme,
@@ -85,7 +86,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ShoppingCart = () => {
+const ShoppingCart = ({ inventory, setInventory }) => {
   const classes = useStyles();
   const theme = useTheme();
   const { shoppingCart, setShoppingCart, open, setOpen } = useContext(
@@ -103,6 +104,39 @@ const ShoppingCart = () => {
   const handleDelete = product => {
     const newShoppingCart = shoppingCart.filter(item => product.id !== item.id);
     setShoppingCart(newShoppingCart);
+
+    //update Inventory
+    const copiedInventory = Object.assign({}, inventory);
+    copiedInventory[product.sku][product.size]++;
+    setInventory(copiedInventory);
+  };
+
+  const CartItem = ({ product }) => {
+    return (
+      <li className="card-container">
+        <IconButton
+          className={classes.toolbarButtons}
+          onClick={() => handleDelete(product)}
+        >
+          X
+        </IconButton>
+        <img src={`data/products/${product.sku}_2.jpg`} alt="" />
+        <p>{product.title}</p>
+        <p>{`$${product.price}`}</p>
+        <p>Size: {product.size}</p>
+      </li>
+    );
+  };
+
+  const CheckOut = ({ shoppingCart }) => {
+    return shoppingCart.length >= 1 ? (
+      <div className="checkout-button">
+        <List>Subtotal: ${shoppingCart.reduce((a, b) => a + b.price, 0)}</List>
+        <Button variant="contained" color="primary">
+          Checkout
+        </Button>
+      </div>
+    ) : null;
   };
 
   return (
@@ -155,26 +189,15 @@ const ShoppingCart = () => {
         <Divider />
         {shoppingCart.map(product => (
           <List>
-            <li className="card-container">
-              <IconButton
-                className={classes.toolbarButtons}
-                onClick={() => handleDelete(product)}
-              >
-                X
-              </IconButton>
-              <img src={`data/products/${product.sku}_2.jpg`} alt="" />
-              <p>{product.title}</p>
-              <p>{`$${product.price}`}</p>
-              <p>Size: {product.size}</p>
-            </li>
+            <CartItem
+              product={product}
+              inventory={inventory}
+              setInventory={setInventory}
+            />
           </List>
         ))}
         <Divider />
-        {shoppingCart.length >= 1 ? (
-          <Button variant="contained" color="primary">
-            Checkout
-          </Button>
-        ) : null}
+        <CheckOut shoppingCart={shoppingCart} />
       </Drawer>
     </div>
   );

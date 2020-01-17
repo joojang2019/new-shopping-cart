@@ -82,7 +82,7 @@ const App = () => {
   return (
     <ShoppingCartProvider>
       <ul>
-        <ShoppingCart />
+        <ShoppingCart inventory={inventory} setInventory={setInventory} />
         <Banner user={user} />
         <CardList
           products={products}
