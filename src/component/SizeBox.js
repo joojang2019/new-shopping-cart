@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 
 const SizeBox = ({ state }) => {
   const {
@@ -30,6 +30,10 @@ const SizeBox = ({ state }) => {
 
   return (
     <div>
+      {Object.values(inventory[sku]).every(val => val === 0) ? (
+        <p>Out of Stock</p>
+      ) : null}
+
       {inventory[sku]["S"] !== 0 ? (
         <button onClick={() => addShoppingCart("S")}>S</button>
       ) : null}
