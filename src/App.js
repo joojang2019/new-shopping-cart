@@ -20,7 +20,8 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database().ref();
+const dbLink = firebase.database();
+const db = dbLink.ref();
 
 const uiConfig = {
   signInFlow: "popup",
@@ -95,3 +96,4 @@ const App = () => {
 };
 
 export default App;
+export { dbLink };

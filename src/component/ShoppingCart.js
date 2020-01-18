@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { dbLink } from "../App";
 import clsx from "clsx";
 import "./Card.css";
 import "./ShoppingCart.css";
@@ -128,11 +129,19 @@ const ShoppingCart = ({ inventory, setInventory }) => {
     );
   };
 
-  const CheckOut = ({ shoppingCart }) => {
+  const handleCheckout = () => {
+    // NEED TO REVIEW
+    dbLink.ref().set(inventory);
+    // Empty ShoppingCart
+    setShoppingCart([]);
+    alert("Successfully Bought!");
+  };
+
+  const CheckOut = () => {
     return shoppingCart.length >= 1 ? (
       <div className="checkout-button">
         <List>Subtotal: ${shoppingCart.reduce((a, b) => a + b.price, 0)}</List>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={handleCheckout}>
           Checkout
         </Button>
       </div>
