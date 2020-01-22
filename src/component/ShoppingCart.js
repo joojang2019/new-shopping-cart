@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { dbLink } from "../App";
 import clsx from "clsx";
 import "./Card.css";
@@ -87,13 +87,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ShoppingCart = ({ inventory, setInventory }) => {
+const ShoppingCart = ({ inventory, setInventory, user }) => {
   const classes = useStyles();
   const theme = useTheme();
   const { shoppingCart, setShoppingCart, open, setOpen } = useContext(
     ShoppingCartContext
   );
 
+  useEffect(() => {
+    if (user && shoppingCart) {
+      dbLink
+        .ref("carts/" + user.uid)
+        .once("value")
+        .then(function(snapshot) {
+          setShoppingCart([...shoppingCart, ...snapshot.val()]);
+        });
+    }
+  }, [user]);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -104,6 +114,9 @@ const ShoppingCart = ({ inventory, setInventory }) => {
 
   const handleDelete = product => {
     const newShoppingCart = shoppingCart.filter(item => product.id !== item.id);
+    if (user) {
+      dbLink.ref("carts/" + user.uid).set(newShoppingCart);
+    }
     setShoppingCart(newShoppingCart);
 
     //update Inventory
@@ -197,7 +210,7 @@ const ShoppingCart = ({ inventory, setInventory }) => {
         </div>
         <Divider />
         {shoppingCart.map(product => (
-          <List>
+          <List key={`${product.id}`}>
             <CartItem
               product={product}
               inventory={inventory}

@@ -1,4 +1,5 @@
-import React, { Fragment } from "react";
+import React from "react";
+import { dbLink } from "../App";
 
 const SizeBox = ({ state }) => {
   const {
@@ -7,14 +8,20 @@ const SizeBox = ({ state }) => {
     setShoppingCart,
     setOpen,
     inventory,
-    setInventory
+    setInventory,
+    user
   } = state;
   const sku = product.sku;
 
   const addShoppingCart = size => {
     // Add Id to the Cart item
     const id = Math.random() * Math.random() * 100000;
-    setShoppingCart([...shoppingCart, { ...product, size, id }]);
+    const newShoppingCart = [...shoppingCart, { ...product, size, id }];
+    if (user) {
+      dbLink.ref("carts/" + user.uid).set(newShoppingCart);
+    }
+    //have to access before setting
+    setShoppingCart(newShoppingCart);
 
     // Update Inventory
     const copiedInventory = Object.assign({}, inventory);

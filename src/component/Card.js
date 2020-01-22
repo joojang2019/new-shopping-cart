@@ -4,7 +4,7 @@ import "./Card.css";
 import SizeBox from "./SizeBox";
 import { ShoppingCartContext } from "../context/ShoppingCartContext";
 
-const Card = ({ product, inventory, setInventory }) => {
+const Card = ({ product, inventory, setInventory, user }) => {
   const { shoppingCart, setShoppingCart, open, setOpen } = useContext(
     ShoppingCartContext
   );
@@ -22,7 +22,8 @@ const Card = ({ product, inventory, setInventory }) => {
           open,
           setOpen,
           inventory,
-          setInventory
+          setInventory,
+          user
         }}
       />
     </li>

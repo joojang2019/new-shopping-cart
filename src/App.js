@@ -77,18 +77,24 @@ const App = () => {
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(setUser);
+    setUser(firebase.auth().currentUser);
   }, []);
 
   //google login button under the sidebar
   return (
     <ShoppingCartProvider>
       <ul>
-        <ShoppingCart inventory={inventory} setInventory={setInventory} />
+        <ShoppingCart
+          user={user}
+          inventory={inventory}
+          setInventory={setInventory}
+        />
         <Banner user={user} />
         <CardList
           products={products}
           inventory={inventory}
           setInventory={setInventory}
+          user={user}
         />
       </ul>
     </ShoppingCartProvider>
