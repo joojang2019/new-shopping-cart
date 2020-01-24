@@ -100,10 +100,12 @@ const ShoppingCart = ({ inventory, setInventory, user }) => {
         .ref("carts/" + user.uid)
         .once("value")
         .then(function(snapshot) {
-          setShoppingCart([...shoppingCart, ...snapshot.val()]);
+          if (!snapshot.val()) setShoppingCart([...shoppingCart]);
+          else setShoppingCart([...shoppingCart, ...snapshot.val()]);
         });
     }
   }, [user]);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -123,6 +125,8 @@ const ShoppingCart = ({ inventory, setInventory, user }) => {
     const copiedInventory = Object.assign({}, inventory);
     copiedInventory[product.sku][product.size]++;
     setInventory(copiedInventory);
+
+    if (newShoppingCart.length < 1) handleDrawerClose();
   };
 
   const CartItem = ({ product }) => {
@@ -148,6 +152,7 @@ const ShoppingCart = ({ inventory, setInventory, user }) => {
     // Empty ShoppingCart
     setShoppingCart([]);
     alert("Successfully Bought!");
+    handleDrawerClose();
   };
 
   const CheckOut = () => {

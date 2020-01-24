@@ -17,10 +17,11 @@ const SizeBox = ({ state }) => {
     // Add Id to the Cart item
     const id = Math.random() * Math.random() * 100000;
     const newShoppingCart = [...shoppingCart, { ...product, size, id }];
+
+    //have to access before setting
     if (user) {
       dbLink.ref("carts/" + user.uid).set(newShoppingCart);
     }
-    //have to access before setting
     setShoppingCart(newShoppingCart);
 
     // Update Inventory

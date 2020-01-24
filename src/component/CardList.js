@@ -7,7 +7,7 @@ const CardList = ({ products, inventory, setInventory, user }) => {
     <div className="card-list">
       {products.map(product => (
         <Card
-          key={product.sku}
+          key={product.id}
           product={product}
           inventory={inventory}
           setInventory={setInventory}
